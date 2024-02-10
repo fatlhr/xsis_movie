@@ -1,4 +1,4 @@
-package com.example.xsis_movie
+package com.fatihr.xsis_movie
 
 import io.flutter.embedding.android.FlutterActivity
 
