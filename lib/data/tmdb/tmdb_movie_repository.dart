@@ -47,11 +47,12 @@ class TmdbMovieRepository implements MovieRepository {
       {int page = 1}) async {
     try {
       final response = await _dio!.get(
-          '$baseURL/movie/$category?language=en-US&page=$page',
+          // '$baseURL/movie/$category?language=en-US&page=$page',
+          'https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=$page',
           options: _options);
 
       final results = List<Map<String, dynamic>>.from(response.data['results']);
-
+      print('object results: $results');
       return Result.success(results.map((e) => Movie.fromJson(e)).toList());
     } on DioException catch (e) {
       return Result.failed('${e.message}');
@@ -61,11 +62,14 @@ class TmdbMovieRepository implements MovieRepository {
   @override
   Future<Result<List<MovieVideo>>> getMovieVideos({required int id}) async {
     try {
-      final response = await _dio!
-          .get('${baseURL}movie/$id/videos?language=en-US', options: _options);
+      final response = await _dio!.get(
+        '$baseURL/movie/$id/videos?language=en-US',
+        options: _options,
+      );
       final results = List<Map<String, dynamic>>.from(response.data['results']);
       return Result.success(
-          results.map((e) => MovieVideo.fromJson(e)).toList());
+        results.map((e) => MovieVideo.fromJson(e)).toList(),
+      );
     } on DioException catch (e) {
       return Result.failed('${e.message}');
     }
