@@ -17,7 +17,6 @@ class DetailPage extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           YoutubePlayerBuilderWidget(
-            movieId: data?.id ?? 0,
             videoId: ref.watch(videoIdProvider),
           ),
           Padding(

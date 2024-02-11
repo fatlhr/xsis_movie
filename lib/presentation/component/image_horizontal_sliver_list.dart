@@ -28,7 +28,7 @@ class ImageHorizontalSliverList extends ConsumerWidget {
       (prev, next) {
         if (next is AsyncData && next.value != null) {
           ref.read(videoIdProvider.notifier).state =
-              next.value?.where((e) => e.type == "Trailer").first.id ?? '';
+              next.value?.where((e) => e.type == "Trailer").first.key ?? '';
         }
       },
     );
