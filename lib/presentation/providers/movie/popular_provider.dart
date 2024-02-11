@@ -6,10 +6,10 @@ import '../../../domain/usecases/get_movie_list/get_movie_list.dart';
 import '../../../domain/usecases/get_movie_list/get_movie_list_param.dart';
 import '../usecases/get_movie_list_provider.dart';
 
-part 'latest_provider.g.dart';
+part 'popular_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-class Latest extends _$Latest {
+class Popular extends _$Popular {
   @override
   FutureOr<List<Movie>> build() => getMovies();
 
@@ -19,7 +19,7 @@ class Latest extends _$Latest {
     GetMovieList getMovieList = ref.read(getMovieListProvider);
 
     var result = await getMovieList(
-      GetMovieListParam(category: MovieListCategories.latest, page: page),
+      GetMovieListParam(category: MovieListCategories.popular, page: page),
     );
 
     switch (result) {

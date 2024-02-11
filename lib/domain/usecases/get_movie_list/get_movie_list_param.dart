@@ -1,4 +1,4 @@
-enum MovieListCategories { nowPlaying, upcoming, latest }
+enum MovieListCategories { nowPlaying, upcoming, popular }
 
 class GetMovieListParam {
   final int page;

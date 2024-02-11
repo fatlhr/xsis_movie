@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:xsis_movie/presentation/providers/movie/upcoming_provider.dart';
+import 'package:xsis_movie/presentation/providers/movie/popular_provider.dart';
 
-import '../misc/async_value_widget.dart';
-import '../providers/movie/movie_videos_provider.dart';
+import '../component/image_horizontal_sliver_list.dart';
+import '../providers/movie/now_playing_provider.dart';
+import '../providers/movie/upcoming_provider.dart';
 
 class MainPage extends ConsumerStatefulWidget {
   const MainPage({super.key});
@@ -15,44 +16,36 @@ class MainPage extends ConsumerStatefulWidget {
 class _MainPageState extends ConsumerState<MainPage> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Dashboard"),
         actions: const [],
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(20.0),
-          child: AsyncValueWidget(
-            value: ref.watch(upcomingProvider),
-            data: (data) => Column(
-              children: [
-                ...data
-                    .map(
-                      (movie) => Text(movie.title),
-                    )
-                    .toList(),
-                const Text("text"),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.purple,
-                  ),
-                  onPressed: () {
-                    ref
-                        .read(movieVideosProvider.notifier)
-                        .getVideos(id: 866398);
-                  },
-                  child: const Text("detail"),
-                ),
-                AsyncValueWidget(
-                  value: ref.watch(movieVideosProvider),
-                  data: (data) => Text(
-                    data.map((e) => e.name).toList().toString(),
-                  ),
-                )
-              ],
+      body: SizedBox(
+        height: size.height,
+        width: size.width,
+        child: CustomScrollView(
+          slivers: [
+            ImageHorizontalSliverList(
+              height: size.height / 3,
+              title: 'Popular',
+              width: size.width / 3,
+              asyncValue: ref.watch(popularProvider),
             ),
-          ),
+            ImageHorizontalSliverList(
+              height: size.height / 3,
+              title: 'Up Coming',
+              width: size.width / 3,
+              asyncValue: ref.watch(upcomingProvider),
+            ),
+            ImageHorizontalSliverList(
+              height: size.height / 3,
+              title: 'Now Playing',
+              width: size.width / 3,
+              asyncValue: ref.watch(nowPlayingProvider),
+            ),
+          ],
         ),
       ),
     );

@@ -6,7 +6,7 @@ part of 'movie_detail_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$movieDetailHash() => r'73295434dc945d376d4d7e963e161e7244dc4a7b';
+String _$movieDetailHash() => r'b2815198c72f67849c5d741c02ad83bd03c2ee04';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -40,10 +40,10 @@ class MovieDetailFamily extends Family<AsyncValue<MovieDetail?>> {
 
   /// See also [movieDetail].
   MovieDetailProvider call({
-    required Movie movie,
+    required int id,
   }) {
     return MovieDetailProvider(
-      movie: movie,
+      id: id,
     );
   }
 
@@ -52,7 +52,7 @@ class MovieDetailFamily extends Family<AsyncValue<MovieDetail?>> {
     covariant MovieDetailProvider provider,
   ) {
     return call(
-      movie: provider.movie,
+      id: provider.id,
     );
   }
 
@@ -75,11 +75,11 @@ class MovieDetailFamily extends Family<AsyncValue<MovieDetail?>> {
 class MovieDetailProvider extends AutoDisposeFutureProvider<MovieDetail?> {
   /// See also [movieDetail].
   MovieDetailProvider({
-    required Movie movie,
+    required int id,
   }) : this._internal(
           (ref) => movieDetail(
             ref as MovieDetailRef,
-            movie: movie,
+            id: id,
           ),
           from: movieDetailProvider,
           name: r'movieDetailProvider',
@@ -90,7 +90,7 @@ class MovieDetailProvider extends AutoDisposeFutureProvider<MovieDetail?> {
           dependencies: MovieDetailFamily._dependencies,
           allTransitiveDependencies:
               MovieDetailFamily._allTransitiveDependencies,
-          movie: movie,
+          id: id,
         );
 
   MovieDetailProvider._internal(
@@ -100,10 +100,10 @@ class MovieDetailProvider extends AutoDisposeFutureProvider<MovieDetail?> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.movie,
+    required this.id,
   }) : super.internal();
 
-  final Movie movie;
+  final int id;
 
   @override
   Override overrideWith(
@@ -118,7 +118,7 @@ class MovieDetailProvider extends AutoDisposeFutureProvider<MovieDetail?> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        movie: movie,
+        id: id,
       ),
     );
   }
@@ -130,21 +130,21 @@ class MovieDetailProvider extends AutoDisposeFutureProvider<MovieDetail?> {
 
   @override
   bool operator ==(Object other) {
-    return other is MovieDetailProvider && other.movie == movie;
+    return other is MovieDetailProvider && other.id == id;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, movie.hashCode);
+    hash = _SystemHash.combine(hash, id.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin MovieDetailRef on AutoDisposeFutureProviderRef<MovieDetail?> {
-  /// The parameter `movie` of this provider.
-  Movie get movie;
+  /// The parameter `id` of this provider.
+  int get id;
 }
 
 class _MovieDetailProviderElement
@@ -152,7 +152,7 @@ class _MovieDetailProviderElement
   _MovieDetailProviderElement(super.provider);
 
   @override
-  Movie get movie => (origin as MovieDetailProvider).movie;
+  int get id => (origin as MovieDetailProvider).id;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

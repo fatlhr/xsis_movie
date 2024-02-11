@@ -1,8 +1,8 @@
 
 import '../../entities/movie.dart';
 
-class GetMovieDetailParam {
-  final Movie movie;
+// class GetMovieDetailParam {
+//   final Movie movie;
 
-  GetMovieDetailParam({required this.movie});
-}
+//   GetMovieDetailParam({required this.movie});
+// }

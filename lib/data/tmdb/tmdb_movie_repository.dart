@@ -22,8 +22,12 @@ class TmdbMovieRepository implements MovieRepository {
   @override
   Future<Result<MovieDetail>> getDetail({required int id}) async {
     try {
-      final response = await _dio!
-          .get('${baseURL}movie/$id?language=en-US', options: _options);
+      final response = await _dio!.get(
+        '$baseURL/movie/$id?language=en-US',
+        options: _options,
+      );
+
+      print('response detail: $response');
 
       return Result.success(MovieDetail.fromJson(response.data));
     } on DioException catch (e) {
@@ -40,19 +44,19 @@ class TmdbMovieRepository implements MovieRepository {
       _getMovies(_MovieCategory.upcoming.toString(), page: page);
 
   @override
-  Future<Result<List<Movie>>> getLatest({int page = 1}) async =>
-      _getMovies(_MovieCategory.latest.toString(), page: page);
+  Future<Result<List<Movie>>> getPopular({int page = 1}) async =>
+      _getMovies(_MovieCategory.popular.toString(), page: page);
 
   Future<Result<List<Movie>>> _getMovies(String category,
       {int page = 1}) async {
     try {
       final response = await _dio!.get(
-          // '$baseURL/movie/$category?language=en-US&page=$page',
-          'https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=$page',
+          '$baseURL/movie/$category?language=en-US&page=$page',
+          // 'https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=$page',
           options: _options);
 
       final results = List<Map<String, dynamic>>.from(response.data['results']);
-      print('object results: $results');
+      // print('object results: $results');
       return Result.success(results.map((e) => Movie.fromJson(e)).toList());
     } on DioException catch (e) {
       return Result.failed('${e.message}');
@@ -79,7 +83,7 @@ class TmdbMovieRepository implements MovieRepository {
 enum _MovieCategory {
   nowPlaying('now_playing'),
   upcoming('upcoming'),
-  latest('latest');
+  popular('popular');
 
   final String _instring;
 
