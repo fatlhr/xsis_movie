@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:xsis_movie/presentation/component/async_value_widget.dart';
-import 'package:xsis_movie/presentation/providers/movie/movie_detail_provider.dart';
+import 'package:xsis_movie/presentation/providers/movie/movie_videos_provider.dart';
 
 import '../../domain/entities/movie.dart';
 import '../const/const.dart';
+import '../pages/detail_page.dart';
 import 'async_value_sliver_widget.dart';
 
 class ImageHorizontalSliverList extends ConsumerWidget {
@@ -24,6 +24,15 @@ class ImageHorizontalSliverList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(
+      movieVideosProvider,
+      (prev, next) {
+        if (next is AsyncData && next.value != null) {
+          ref.read(videoIdProvider.notifier).state =
+              next.value?.where((e) => e.type == "Trailer").first.id ?? '';
+        }
+      },
+    );
     return AsyncValueSliverWidget(
       value: asyncValue,
       data: (data) => SliverToBoxAdapter(
@@ -53,6 +62,9 @@ class ImageHorizontalSliverList extends ConsumerWidget {
                   ),
                   child: InkWell(
                     onTap: () {
+                      ref
+                          .read(movieVideosProvider.notifier)
+                          .getVideos(id: data[index].id);
                       movieDetailModal(context, data[index]);
                     },
                     child: SizedBox(
@@ -121,18 +133,7 @@ class ImageHorizontalSliverList extends ConsumerWidget {
                 child: const Text('Close'),
               ),
             ),
-            Consumer(
-              builder: (context, ref, widget) => AsyncValueWidget(
-                value: ref.watch(movieDetailProvider(id: movie.id)),
-                data: (data) => Column(
-                  children: [
-                    Text(
-                      data?.title ?? '',
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            DetailPage(id: movie.id),
           ],
         ),
       ),
