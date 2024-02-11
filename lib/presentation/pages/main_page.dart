@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xsis_movie/presentation/providers/movie/popular_provider.dart';
 
 import '../component/image_horizontal_sliver_list.dart';
+import '../providers/movie/movie_search_provider.dart';
 import '../providers/movie/now_playing_provider.dart';
 import '../providers/movie/upcoming_provider.dart';
+import 'movie_search_page.dart';
 
 class MainPage extends ConsumerStatefulWidget {
   const MainPage({super.key});
@@ -14,6 +16,7 @@ class MainPage extends ConsumerStatefulWidget {
 }
 
 class _MainPageState extends ConsumerState<MainPage> {
+  TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
@@ -47,22 +50,34 @@ class _MainPageState extends ConsumerState<MainPage> {
                   ),
                   child: Row(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(Icons.search),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: IconButton(
+                            onPressed: () {
+                              ref.read(movieSearchProvider.notifier).getMovies(
+                                    query: searchController.text,
+                                  );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MovieSearchPage(
+                                    query: searchController.text,
+                                  ),
+                                ),
+                              );
+                            },
+                            icon: const Icon(Icons.search)),
                       ),
                       Expanded(
-                        child: TextFormField(
-                          initialValue: null,
+                        child: TextField(
+                          controller: searchController,
+                          // initialValue: '',
                           decoration: const InputDecoration.collapsed(
                             filled: true,
                             fillColor: Colors.transparent,
                             hoverColor: Colors.transparent,
                             hintText: "Search",
                           ),
-                          onFieldSubmitted: (value) {
-                            
-                          },
                         ),
                       ),
                     ],

@@ -19,6 +19,8 @@ class GetMovieList implements UseCase<Result<List<Movie>>, GetMovieListParam> {
         await _movieRepository.getUpcoming(page: params.page),
       MovieListCategories.popular =>
         await _movieRepository.getPopular(page: params.page),
+
+      MovieListCategories.search =>await _movieRepository.getSearch(params.query, page: params.page),
     };
 
     return switch (movieResult) {

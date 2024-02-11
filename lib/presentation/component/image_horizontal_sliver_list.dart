@@ -1,12 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xsis_movie/presentation/providers/movie/movie_videos_provider.dart';
 
 import '../../domain/entities/movie.dart';
-import '../const/const.dart';
 import '../pages/detail_page.dart';
 import 'async_value_sliver_widget.dart';
+import 'movie_card.dart';
 
 class ImageHorizontalSliverList extends ConsumerWidget {
   const ImageHorizontalSliverList({
@@ -69,42 +68,10 @@ class ImageHorizontalSliverList extends ConsumerWidget {
                     },
                     child: SizedBox(
                       width: width,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            constraints: BoxConstraints(
-                              minHeight: height * 0.8,
-                            ),
-                            child: CachedNetworkImage(
-                              width: width,
-                              imageUrl: '$photoURL${data[index].posterPath}',
-                              imageBuilder: (context, imageProvider) =>
-                                  Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.fitWidth,
-                                  ),
-                                ),
-                              ),
-                              placeholder: (context, url) => Container(
-                                color: Colors.grey,
-                              ),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                            ),
-                          ),
-                          Text(
-                            data[index].title,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                          Text(data[index].releaseDate),
-                        ],
+                      child: MovieCard(
+                        height: height,
+                        width: width,
+                        movie: data[index],
                       ),
                     ),
                   ),
