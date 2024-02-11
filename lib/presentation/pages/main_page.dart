@@ -151,12 +151,6 @@ class _MainPageState extends ConsumerState<MainPage> {
             ),
             ImageHorizontalSliverList(
               height: size.height / 3,
-              title: 'Popular',
-              width: size.width / 3,
-              asyncValue: ref.watch(popularProvider),
-            ),
-            ImageHorizontalSliverList(
-              height: size.height / 3,
               title: 'Up Coming',
               width: size.width / 3,
               asyncValue: ref.watch(upcomingProvider),
