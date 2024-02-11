@@ -52,7 +52,6 @@ class TmdbMovieRepository implements MovieRepository {
     try {
       final response = await _dio!.get(
           '$baseURL/movie/$category?language=en-US&page=$page',
-          // 'https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=$page',
           options: _options);
 
       final results = List<Map<String, dynamic>>.from(response.data['results']);
@@ -68,6 +67,7 @@ class TmdbMovieRepository implements MovieRepository {
     try {
       final response = await _dio!.get(
         '$baseURL/movie/$id/videos?language=en-US',
+        
         options: _options,
       );
       final results = List<Map<String, dynamic>>.from(response.data['results']);

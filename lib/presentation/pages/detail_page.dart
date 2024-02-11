@@ -13,13 +13,49 @@ class DetailPage extends ConsumerWidget {
     return AsyncValueWidget(
       value: ref.watch(movieDetailProvider(id: id)),
       data: (data) => Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            data?.title ?? '',
-          ),
           YoutubePlayerBuilderWidget(
             movieId: data?.id ?? 0,
             videoId: ref.watch(videoIdProvider),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 32),
+                Text(
+                  data?.title ?? '',
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 24),
+                ),
+                const SizedBox(height: 18),
+                Wrap(
+                  children: data?.genres
+                          ?.map(
+                            (e) => Text(
+                              data.genres != null ? '${e.name ?? ''}, ' : '',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          )
+                          .toList() ??
+                      [],
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  data?.overview ?? '',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

@@ -55,6 +55,7 @@ class _YoutubePlayerBuilderWidgetState
     return AsyncValueWidget(
       value: ref.watch(movieVideosProvider),
       data: (data) {
+        print(data.where((e) => e.type == "Trailer").first.id);
         return YoutubePlayerBuilder(
           player: YoutubePlayer(
             controller: _controller,
@@ -67,9 +68,12 @@ class _YoutubePlayerBuilderWidgetState
               children: [
                 player,
                 const SizedBox(height: 20),
-                const Text(
-                  'Flutter YouTube Player',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                Text(
+                  data.where((e) => e.type == "Trailer").first.name ?? '',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             );
