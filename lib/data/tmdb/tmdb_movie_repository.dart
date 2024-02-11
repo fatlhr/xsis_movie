@@ -67,12 +67,27 @@ class TmdbMovieRepository implements MovieRepository {
     try {
       final response = await _dio!.get(
         '$baseURL/movie/$id/videos?language=en-US',
-        
         options: _options,
       );
       final results = List<Map<String, dynamic>>.from(response.data['results']);
       return Result.success(
         results.map((e) => MovieVideo.fromJson(e)).toList(),
+      );
+    } on DioException catch (e) {
+      return Result.failed('${e.message}');
+    }
+  }
+
+  @override
+  Future<Result<List<Movie>>> getSearch(String query, {int page = 1}) async {
+    try {
+      final response = await _dio!.get(
+        '$baseURL/search/movie?query=$query&include_adult=false&language=en-US&page=$page',
+        options: _options,
+      );
+      final results = List<Map<String, dynamic>>.from(response.data['results']);
+      return Result.success(
+        results.map((e) => Movie.fromJson(e)).toList(),
       );
     } on DioException catch (e) {
       return Result.failed('${e.message}');
