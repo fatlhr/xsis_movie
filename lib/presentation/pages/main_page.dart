@@ -52,7 +52,7 @@ class _MainPageState extends ConsumerState<MainPage> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: IconButton(
+                        child: IconButton.filled(
                             onPressed: () {
                               ref.read(movieSearchProvider.notifier).getMovies(
                                     query: searchController.text,

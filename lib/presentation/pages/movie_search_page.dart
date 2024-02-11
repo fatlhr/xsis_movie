@@ -35,6 +35,7 @@ class MovieSearchPage extends ConsumerWidget {
               mainAxisSpacing: 10.0,
             ),
             itemBuilder: (BuildContext context, int index) {
+              print('date: ${data[index].releaseDate}');
               return Column(
                 children: [
                   Expanded(
@@ -67,7 +68,9 @@ class MovieSearchPage extends ConsumerWidget {
                     maxLines: 1,
                   ),
                   Text(
-                    formatDate(data[index].releaseDate),
+                    data[index].releaseDate.isNotEmpty
+                        ? formatDate(data[index].releaseDate)
+                        : "no date",
                     style: const TextStyle(
                       fontSize: 14.0,
                       // fontWeight: FontWeight.bold,
