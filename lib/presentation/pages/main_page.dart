@@ -1,8 +1,12 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:xsis_movie/presentation/component/async_value_widget.dart';
 import 'package:xsis_movie/presentation/providers/movie/popular_provider.dart';
 
 import '../component/image_horizontal_sliver_list.dart';
+import '../const/const.dart';
 import '../providers/movie/movie_search_provider.dart';
 import '../providers/movie/now_playing_provider.dart';
 import '../providers/movie/upcoming_provider.dart';
@@ -85,6 +89,66 @@ class _MainPageState extends ConsumerState<MainPage> {
                 ),
               ),
             ),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: size.height / 3,
+                width: double.infinity,
+                child: AsyncValueWidget(
+                  value: ref.watch(popularProvider),
+                  data: (data) => CarouselSlider(
+                    items: data
+                        .asMap()
+                        .entries
+                        .map(
+                          (e) => Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                colorFilter: const ColorFilter.mode(
+                                  Colors.black45,
+                                  BlendMode.darken,
+                                ),
+                                image: NetworkImage(
+                                  '$photoURL${e.value.posterPath}',
+                                ),
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  e.value.title,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  formatDate(e.value.releaseDate),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                        .toList(),
+                    options: CarouselOptions(
+                      autoPlay: true,
+                      enlargeCenterPage: true,
+                      viewportFraction: 0.9,
+                      aspectRatio: 2.0,
+                      initialPage: 0,
+                    ),
+                  ),
+                ),
+              ),
+            ),
             ImageHorizontalSliverList(
               height: size.height / 3,
               title: 'Popular',
@@ -107,5 +171,11 @@ class _MainPageState extends ConsumerState<MainPage> {
         ),
       ),
     );
+  }
+
+  String formatDate(String dateString) {
+    DateTime dateTime = DateTime.parse(dateString);
+    String formattedDate = DateFormat("dd MMM yyyy").format(dateTime);
+    return formattedDate;
   }
 }
